@@ -8,8 +8,8 @@ import router from "./routers/router.js";
 import { saveMessage } from "./controller/controller.js";
 app.use(cors({
 
-    origin: ['https://tranlehuyhoang.github.io/client_mess', 'https://tranlehuyhoang.github.io', 'http://localhost:3000'],
-    credentials: true
+  origin: ['https://tranlehuyhoang.github.io/client_mess', 'https://tranlehuyhoang.github.io', 'http://localhost:3000'],
+  credentials: true
 
 }));
 app.use(express.json());
@@ -18,13 +18,13 @@ app.use('/api', router);
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-      origin: ['https://tranlehuyhoang.github.io', 'https://tranlehuyhoang.github.io/client_mess', 'http://localhost:3000'],
-      credentials: true
+    origin: ['https://tranlehuyhoang.github.io', 'https://tranlehuyhoang.github.io/client_mess', 'http://localhost:3000'],
+    credentials: true
   }
 });
 let online = []
 io.on("connection", (socket) => {
- 
+
 
   socket.on("join_room", (data) => {
     socket.join(data);
