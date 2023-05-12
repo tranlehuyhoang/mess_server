@@ -6,16 +6,21 @@ import { Server } from "socket.io";
 import connect from "./database/connect.js";
 import router from "./routers/router.js";
 import { saveMessage } from "./controller/controller.js";
-app.use(cors());
+app.use(cors({
+
+    origin: ['https://tranlehuyhoang.github.io/client_mess', 'https://tranlehuyhoang.github.io', 'http://localhost:3000'],
+    credentials: true
+
+}));
 app.use(express.json());
 connect();
 app.use('/api', router);
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-  },
+      origin: ['https://tranlehuyhoang.github.io', 'https://tranlehuyhoang.github.io/client_mess', 'http://localhost:3000'],
+      credentials: true
+  }
 });
 let online = []
 io.on("connection", (socket) => {
