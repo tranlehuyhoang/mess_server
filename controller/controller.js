@@ -2,7 +2,7 @@ import { User } from "../database/data.js"
 import { Chatroom } from "../database/data.js";
 
 export async function addUser(req, res) {
-    const { username, password, avatar } = req.body;
+    const { username, password, avatar ,name } = req.body;
 
     try {
         const existingUser = await User.findOne({ username });
@@ -11,7 +11,7 @@ export async function addUser(req, res) {
             res.status(400).json({ error: 'User already exists' });
             return;
         }
-        await User.insertMany({ username, password, avatar });
+        await User.insertMany({ username, password, avatar,name });
         res.json({ message: 'User added successfully' });
     } catch (error) {
         console.error(error);
