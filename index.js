@@ -9,7 +9,7 @@ import router from "./routers/router.js";
 import { saveMessage } from "./controller/controller.js";
 app.use(cors({
 
-  origin: ['https://tranlehuyhoang.github.io/client_mess', 'https://tranlehuyhoang.github.io', 'http://localhost:3000'],
+  origin: ['https://tranlehuyhoang.github.io/mess_clientf/', 'https://tranlehuyhoang.github.io', 'http://localhost:3000'],
   credentials: true
 
 }));
@@ -19,7 +19,7 @@ app.use('/api', router);
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ['https://tranlehuyhoang.github.io', 'https://tranlehuyhoang.github.io/client_mess', 'http://localhost:3000'],
+    origin: ['https://tranlehuyhoang.github.io', 'https://tranlehuyhoang.github.io/mess_clientf/', 'http://localhost:3000'],
     credentials: true
   }
 });
@@ -44,7 +44,7 @@ io.on("connection", (socket) => {
 
     if (socket.id) {
       try {
-        const response = await axios.post('http://localhost:5000/api/status', {
+        const response = await axios.post('api/status', {
           ids: socket.id,
         });
       } catch (error) {
