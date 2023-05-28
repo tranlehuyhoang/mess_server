@@ -1,5 +1,6 @@
 import express from "express";
 const app = express();
+import axios from "axios";
 import http from "http";
 import cors from "cors";
 import { Server } from "socket.io";
@@ -22,30 +23,37 @@ const io = new Server(server, {
     credentials: true
   }
 });
-let online = []
+
 io.on("connection", (socket) => {
 
 
   socket.on("join_room", (data) => {
+    socket.emit("send_user", socket.id);
+    io.emit('user_online')
     socket.join(data);
     socket.join(data);
     console.log(`User with ID: ${socket.id} joined room: ${data}`);
-    io.to(data).emit("online_users", online);
   });
   socket.on("send_message", (data) => {
     socket.to(data.room).emit("receive_message", data);
     console.log(data)
     console.log(saveMessage(data.room, data))
   });
-  socket.on("disconnect", () => {
-    online = online.filter((id) => id !== socket.id);
+  socket.on("disconnect", async (data) => {
+    io.emit("status_user", socket.id);
+
+    if (socket.id) {
+      try {
+        const response = await axios.post('http://localhost:5000/api/status', {
+          ids: socket.id,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
     console.log(`User Disconnected: ${socket.id}`);
-    io.emit("online_users", online);
   });
-  socket.on("online_users", (users) => {
-    // Update online status list with new users
-    console.log("Online Users:", users);
-  });
+
 });
 
 server.listen(5000, () => {

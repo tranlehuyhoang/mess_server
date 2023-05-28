@@ -8,4 +8,8 @@ router.route('/user')
 router.route('/chat')
     .post(controller.saveMessage)
     .get(controller.getData) 
+router.route('/status')
+    .post(controller.addOnline)
+    .get(controller.getOnlineUsers) 
+ 
 export default router
